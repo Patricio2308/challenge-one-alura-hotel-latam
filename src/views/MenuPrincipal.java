@@ -1,20 +1,19 @@
 package views;
 
+import factory.ConnectionFactory;
+
 import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Panel;
 import java.awt.Color;
 import java.awt.SystemColor;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Toolkit;
-import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.Connection;
 
 @SuppressWarnings("serial")
 public class MenuPrincipal extends JFrame {
@@ -22,12 +21,14 @@ public class MenuPrincipal extends JFrame {
 	private JPanel contentPane;
 	private JLabel labelExit;
 	int xMouse, yMouse;
-
+	private ConnectionFactory con;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			private final Connection con = new ConnectionFactory().recuperarConexion();
+
 			public void run() {
 				try {
 					MenuPrincipal frame = new MenuPrincipal();
@@ -108,7 +109,15 @@ public class MenuPrincipal extends JFrame {
 		btnexit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.exit(0);
+
+				int response = JOptionPane.showConfirmDialog(
+						contentPane,
+						"¿Está seguro de que quiere salir?",
+						"Confirmación",
+						JOptionPane.YES_NO_OPTION
+				);
+				if (response == JOptionPane.YES_OPTION)
+					System.exit(0);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
