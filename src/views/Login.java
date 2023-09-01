@@ -1,5 +1,6 @@
 package views;
 
+import controller.LoginController;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,6 +34,7 @@ public class Login extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	private LoginController loginController;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -50,6 +52,7 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
+		this.loginController = new LoginController();
 		setResizable(false);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -235,13 +238,15 @@ public class Login extends JFrame {
 	}
 	
 	private void Login() {
+
 		 String Usuario= "admin";
 	     String Contraseña="admin";
 
 	        String contrase=new String (txtContrasena.getPassword());
 
 	        if(txtUsuario.getText().equals(Usuario) && contrase.equals(Contraseña)){
-	            MenuUsuario menu = new MenuUsuario();
+				loginController.login();
+				MenuUsuario menu = new MenuUsuario();
 	            menu.setVisible(true);
 	            dispose();	 
 	        }else {
