@@ -1,5 +1,7 @@
 package views;
 
+import controller.UserController;
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -29,6 +31,8 @@ public class MenuUsuario extends JFrame {
 	private JLabel labelExit;
 	private JLabel labelRegistro;
 
+
+	private UserController userController;
 	/**
 	 * Launch the application.
 	 */
