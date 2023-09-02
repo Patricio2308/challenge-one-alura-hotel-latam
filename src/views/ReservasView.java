@@ -37,6 +37,7 @@ public class ReservasView extends JFrame {
 	int xMouse, yMouse;
 	private JLabel labelExit;
 	private JLabel labelAtras;
+	private JLabel lblSiguiente;
 
 	/**
 	 * Launch the application.
@@ -234,12 +235,7 @@ public class ReservasView extends JFrame {
 		btnAtras.add(labelAtras);
 		labelAtras.setHorizontalAlignment(SwingConstants.CENTER);
 		labelAtras.setFont(new Font("Roboto", Font.PLAIN, 23));
-		
-		JLabel lblSiguiente = new JLabel("SIGUIENTE");
-		lblSiguiente.setHorizontalAlignment(SwingConstants.CENTER);
-		lblSiguiente.setForeground(Color.WHITE);
-		lblSiguiente.setFont(new Font("Roboto", Font.PLAIN, 18));
-		lblSiguiente.setBounds(0, 0, 122, 35);
+
 		
 		
 		//Campos que guardaremos en la base de datos
@@ -311,6 +307,12 @@ public class ReservasView extends JFrame {
 		btnsiguiente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
 
+		lblSiguiente = new JLabel("SIGUIENTE");
+		lblSiguiente.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSiguiente.setForeground(Color.WHITE);
+		lblSiguiente.setFont(new Font("Roboto", Font.PLAIN, 18));
+		lblSiguiente.setBounds(0, 0, 122, 35);
+		btnsiguiente.add(lblSiguiente);
 	}
 		
 	//Código que permite mover la ventana por la pantalla según la posición de "x" y "y"	
