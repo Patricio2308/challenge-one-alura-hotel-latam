@@ -284,8 +284,6 @@ public class RegistroHuesped extends JFrame {
 		logo.setIcon(new ImageIcon(RegistroHuesped.class.getResource("/imagenes/Ha-100px.png")));
 		
 		JPanel btnexit = new JPanel();
-		btnexit.setBounds(857, 0, 53, 36);
-		contentPane.add(btnexit);
 		btnexit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -297,22 +295,24 @@ public class RegistroHuesped extends JFrame {
 			public void mouseEntered(MouseEvent e) {
 				btnexit.setBackground(Color.red);
 				labelExit.setForeground(Color.white);
-			}			
+			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				 btnexit.setBackground(Color.white);
 			     labelExit.setForeground(Color.black);
 			}
 		});
+		btnexit.setBounds(857, 0, 53, 36);
 		btnexit.setLayout(null);
 		btnexit.setBackground(Color.white);
-		
+		header.add(btnexit);
+
 		labelExit = new JLabel("X");
 		labelExit.setBounds(0, 0, 53, 36);
-		btnexit.add(labelExit);
 		labelExit.setHorizontalAlignment(SwingConstants.CENTER);
 		labelExit.setForeground(SystemColor.black);
 		labelExit.setFont(new Font("Roboto", Font.PLAIN, 18));
+		btnexit.add(labelExit);
 	}
 	
 	
