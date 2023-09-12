@@ -1,16 +1,26 @@
 package modelo;
 
+import java.sql.Date;
+
 public class User {
 
     private Integer id;
     private String nombre;
     private String apellido;
-    private String fechaNacimiento;
+    private Date fechaNacimiento;
     private String nacionalidad;
     private String telefono;
-    private int numeroReserva;
+    private Integer numeroReserva;
 
-    public User(Integer id, String nombre, String apellido, String fechaNacimiento, String nacionalidad, String telefono, int numeroReserva) {
+    public User(String nombre, String apellido, Date fechaNacimiento, String nacionalidad, String telefono, Integer numeroReserva) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
+        this.nacionalidad = nacionalidad;
+        this.telefono = telefono;
+        this.numeroReserva = numeroReserva;
+    }
+    public User(Integer id, String nombre, String apellido, Date fechaNacimiento, String nacionalidad, String telefono, Integer numeroReserva) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -43,11 +53,11 @@ public class User {
         this.apellido = apellido;
     }
 
-    public String getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -65,6 +75,14 @@ public class User {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public Integer getNumeroReserva() {
+        return numeroReserva;
+    }
+
+    public void setNumeroReserva(Integer numeroReserva) {
+        this.numeroReserva = numeroReserva;
     }
 
     @Override

@@ -13,8 +13,8 @@ public class UserController {
         this.userDAO = new UserDAO(new ConnectionFactory().recuperarConexion());
     }
 
-    public List<User> cargarUsiarios() {
-        return userDAO.leerUsuarios();
+    public List<User> cargarUsuarios() {
+        return userDAO.cargarUsuarios();
     }
     public void guardarUsuario(User user){
         userDAO.guardarUsuario(user);

@@ -7,7 +7,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
+import controller.ReservaController;
+import controller.UserController;
 import modelo.Reserva;
+import modelo.User;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -258,8 +261,30 @@ public class RegistroHuesped extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				/*Accion de guardar*/
-
-
+				try {
+					if(!txtNombre.getText().isEmpty() && !txtApellido.getText().isEmpty() && !txtFechaN.getDate().toString().isEmpty() && !txtNacionalidad.getSelectedItem().toString().isEmpty() && !txtTelefono.getText().isEmpty()) {
+						User huesped = new User(
+								txtNombre.getText(),
+								txtApellido.getText(),
+								new java.sql.Date(txtFechaN.getDate().getTime()),
+								txtNacionalidad.getSelectedItem().toString(),
+								txtTelefono.getText(),
+								reserva.getId()
+						);
+		//				ReservaController reservaController = new ReservaController();
+		//				reservaController.guardarReserva(reserva);
+						UserController userController = new UserController();
+						userController.guardarUsuario(huesped);
+						Exito exito = new Exito();
+						exito.setVisible(true);
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
+					}
+			}catch (Exception ev){
+				JOptionPane.showMessageDialog(null, "Existen campos no válidos.");
+				throw new RuntimeException(ev);
+				}
 			}
 		});
 		btnguardar.setLayout(null);

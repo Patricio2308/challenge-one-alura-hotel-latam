@@ -16,8 +16,8 @@ public class UserDAO {
     public  void guardarUsuario(User user) {
 
         try {
-            String sql = "INSERT INTO HUESPEDES(NOMBRE, APELLIDO, NACIMIENTO, NACIONALIDAD, TELEFONO)" +
-                    " VALUES(?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO HUESPEDES(NOMBRE, APELLIDO, NACIMIENTO, NACIONALIDAD, TELEFONO, IdReserva)" +
+                    " VALUES(?, ?, ?, ?, ?, ?)";
             final PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             try(statement) {
                 registrarUsuario(user, statement);
@@ -30,9 +30,10 @@ public class UserDAO {
     private static void registrarUsuario(User user, PreparedStatement statement) throws SQLException {
         statement.setString(1, user.getNombre());
         statement.setString(2, user.getApellido());
-        statement.setString(3, user.getFechaNacimiento());
+        statement.setDate(3, user.getFechaNacimiento());
         statement.setString(4, user.getNacionalidad());
         statement.setString(5, user.getTelefono());
+        statement.setInt(6,user.getNumeroReserva());
 
         statement.execute();
 
@@ -45,7 +46,7 @@ public class UserDAO {
         }
     }
 
-    public List<User> leerUsuarios(){
+    public List<User> cargarUsuarios(){
         List<User> lista = new ArrayList<>();
         try{
             String sql = "SELECT ID, NOMBRE, APELLIDO, NACIMIENTO, NACIONALIDAD, TELEFONO, IdReserva FROM HUESPEDES";
@@ -61,7 +62,7 @@ public class UserDAO {
                                 resultSet.getInt("ID"),
                                 resultSet.getString("NOMBRE"),
                                 resultSet.getString("APELLIDO"),
-                                resultSet.getString("NACIMIENTO"),
+                                resultSet.getDate("NACIMIENTO"),
                                 resultSet.getString("NACIONALIDAD"),
                                 resultSet.getString("TELEFONO"),
                                 resultSet.getInt("IdReserva")

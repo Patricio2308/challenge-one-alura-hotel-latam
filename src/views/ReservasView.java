@@ -303,20 +303,25 @@ public class ReservasView extends JFrame {
 		btnsiguiente.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {
-					Reserva res = new Reserva(
-							new java.sql.Date(ReservasView.txtFechaEntrada.getDate().getTime()),
-							new java.sql.Date(ReservasView.txtFechaSalida.getDate().getTime()),
-							montoTotal,
-							txtFormaPago.getSelectedItem().toString()
-					);
-					ReservaController reserva = new ReservaController();
-					reserva.guardarReserva(res);
-					RegistroHuesped registro = new RegistroHuesped(res);
-					registro.setVisible(true);
-					dispose();
-				} else {
-					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
+				try {
+					if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {
+						Reserva res = new Reserva(
+								new java.sql.Date(ReservasView.txtFechaEntrada.getDate().getTime()),
+								new java.sql.Date(ReservasView.txtFechaSalida.getDate().getTime()),
+								montoTotal,
+								txtFormaPago.getSelectedItem().toString()
+						);
+						ReservaController reserva = new ReservaController();
+						reserva.guardarReserva(res);
+						RegistroHuesped registro = new RegistroHuesped(res);
+						registro.setVisible(true);
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
+					}
+				} catch (Exception exception){
+					JOptionPane.showMessageDialog(null, "Existen campos no válidos.");
+					throw new RuntimeException(exception);
 				}
 			}						
 		});
