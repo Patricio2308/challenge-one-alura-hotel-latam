@@ -44,9 +44,9 @@ public class ReservasView extends JFrame {
 	private JLabel labelExit;
 	private JLabel labelAtras;
 	private JLabel lblSiguiente;
-
 	private final Integer MONTOPORDIA = 120;
 	private BigDecimal montoTotal;
+
 	/**
 	 * Launch the application.
 	 */
@@ -270,7 +270,7 @@ public class ReservasView extends JFrame {
 			public void propertyChange(PropertyChangeEvent evt) {
 				//Activa el evento, después del usuario seleccionar las fechas se debe calcular el valor de la reserva
 				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {
-				calcularMontoPorDias();
+					calcularMontoPorDias();
 				}
 			}
 		});
@@ -283,9 +283,9 @@ public class ReservasView extends JFrame {
 		txtValor.setBackground(SystemColor.text);
 		txtValor.setHorizontalAlignment(SwingConstants.CENTER);
 		txtValor.setForeground(Color.BLACK);
-		txtValor.setBounds(78, 328, 43, 33);
+		txtValor.setBounds(78, 328, 243, 33);
 		txtValor.setEditable(false);
-		txtValor.setFont(new Font("Roboto Black", Font.BOLD, 17));
+		txtValor.setFont(new Font("Roboto Black", Font.BOLD, 18));
 		txtValor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		panel.add(txtValor);
 		txtValor.setColumns(10);
@@ -310,11 +310,11 @@ public class ReservasView extends JFrame {
 							montoTotal,
 							txtFormaPago.getSelectedItem().toString()
 					);
-					//ReservaController reserva = new ReservaController();
-					RegistroHuesped registro = new RegistroHuesped();
-					//reserva.guardarReserva(res);
+					ReservaController reserva = new ReservaController();
+					reserva.guardarReserva(res);
+					RegistroHuesped registro = new RegistroHuesped(res);
 					registro.setVisible(true);
-					//dispose();
+					dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
 				}
@@ -354,4 +354,5 @@ public class ReservasView extends JFrame {
 	        int y = evt.getYOnScreen();
 	        this.setLocation(x - xMouse, y - yMouse);
 }
+
 }

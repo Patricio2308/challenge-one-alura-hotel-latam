@@ -27,7 +27,12 @@ public class ReservaDAO {
                 statement.setString(4,reserva.getFormaDePago());
 
                 statement.execute();
-
+                final ResultSet result = statement.getGeneratedKeys();
+                try(result){
+                    while (result.next()) {
+                        reserva.setId(result.getInt(1));
+                    }
+                }
             }
         } catch (SQLException e){
             throw new RuntimeException(e);

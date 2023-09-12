@@ -24,6 +24,9 @@ public class Reserva {
         this.formaDePago = formaDePago;
     }
 
+    public Reserva() {
+    }
+
     public int calcular(){
         return 0;
     }
