@@ -8,14 +8,16 @@ public class User {
     private String fechaNacimiento;
     private String nacionalidad;
     private String telefono;
+    private int numeroReserva;
 
-    public User(Integer id, String nombre, String apellido, String fechaNacimiento, String nacionalidad, String telefono) {
+    public User(Integer id, String nombre, String apellido, String fechaNacimiento, String nacionalidad, String telefono, int numeroReserva) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad = nacionalidad;
         this.telefono = telefono;
+        this.numeroReserva = numeroReserva;
     }
 
     public Integer getId() {

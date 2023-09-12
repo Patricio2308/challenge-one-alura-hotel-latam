@@ -11,16 +11,22 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
+import controller.ReservaController;
+import modelo.Reserva;
+
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import java.text.Format;
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.Toolkit;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -39,6 +45,8 @@ public class ReservasView extends JFrame {
 	private JLabel labelAtras;
 	private JLabel lblSiguiente;
 
+	private final Integer MONTOPORDIA = 120;
+	private BigDecimal montoTotal;
 	/**
 	 * Launch the application.
 	 */
@@ -261,6 +269,9 @@ public class ReservasView extends JFrame {
 		txtFechaSalida.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				//Activa el evento, después del usuario seleccionar las fechas se debe calcular el valor de la reserva
+				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {
+				calcularMontoPorDias();
+				}
 			}
 		});
 		txtFechaSalida.setDateFormatString("yyyy-MM-dd");
@@ -292,9 +303,18 @@ public class ReservasView extends JFrame {
 		btnsiguiente.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {		
+				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {
+					Reserva res = new Reserva(
+							new java.sql.Date(ReservasView.txtFechaEntrada.getDate().getTime()),
+							new java.sql.Date(ReservasView.txtFechaSalida.getDate().getTime()),
+							montoTotal,
+							txtFormaPago.getSelectedItem().toString()
+					);
+					//ReservaController reserva = new ReservaController();
 					RegistroHuesped registro = new RegistroHuesped();
+					//reserva.guardarReserva(res);
 					registro.setVisible(true);
+					//dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
 				}
@@ -314,7 +334,15 @@ public class ReservasView extends JFrame {
 		lblSiguiente.setBounds(0, 0, 122, 35);
 		btnsiguiente.add(lblSiguiente);
 	}
-		
+
+	private void calcularMontoPorDias() {
+		Long cantidadDeDias, cantidadDeMiliseg;
+		cantidadDeMiliseg = txtFechaSalida.getDate().getTime() - txtFechaEntrada.getDate().getTime();
+		cantidadDeDias = (long) Math.ceil((double) cantidadDeMiliseg / (24 * 60 * 60 * 1000));
+		montoTotal = BigDecimal.valueOf(cantidadDeDias * MONTOPORDIA);
+		txtValor.setText("$" + String.valueOf(montoTotal));
+	}
+
 	//Código que permite mover la ventana por la pantalla según la posición de "x" y "y"	
 	 private void headerMousePressed(java.awt.event.MouseEvent evt) {
 	        xMouse = evt.getX();

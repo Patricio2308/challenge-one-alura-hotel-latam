@@ -48,7 +48,7 @@ public class UserDAO {
     public List<User> leerUsuarios(){
         List<User> lista = new ArrayList<>();
         try{
-            String sql = "SELECT ID, NOMBRE, APELLIDO, NACIMIENTO, NACIONALIDAD, TELEFONO FROM HUESPEDES";
+            String sql = "SELECT ID, NOMBRE, APELLIDO, NACIMIENTO, NACIONALIDAD, TELEFONO, IdReserva FROM HUESPEDES";
             final PreparedStatement statement = con.prepareStatement(sql);
             try(statement){
                 statement.execute();
@@ -63,7 +63,8 @@ public class UserDAO {
                                 resultSet.getString("APELLIDO"),
                                 resultSet.getString("NACIMIENTO"),
                                 resultSet.getString("NACIONALIDAD"),
-                                resultSet.getString("TELEFONO")
+                                resultSet.getString("TELEFONO"),
+                                resultSet.getInt("IdReserva")
                         );
                         lista.add(user);
                     }

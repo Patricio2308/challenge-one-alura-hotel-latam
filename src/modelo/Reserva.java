@@ -1,7 +1,7 @@
 package modelo;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 
 public class Reserva {
     private Integer id;
@@ -16,8 +16,12 @@ public class Reserva {
         this.valor = valor;
         this.formaDePago = formaDePago;
     }
-    public Reserva(){
-
+    public Reserva(Integer id, Date fechaEntrada, Date fechaSalida, BigDecimal valor, String formaDePago) {
+        this.id = id;
+        this.fechaEntrada = fechaEntrada;
+        this.fechaSalida = fechaSalida;
+        this.valor = valor;
+        this.formaDePago = formaDePago;
     }
 
     public int calcular(){
@@ -62,5 +66,16 @@ public class Reserva {
 
     public void setFormaDePago(String formaDePago) {
         this.formaDePago = formaDePago;
+    }
+
+    @Override
+    public String toString() {
+        return "Reserva{" +
+                "id=" + id +
+                ", fechaEntrada=" + fechaEntrada +
+                ", fechaSalida=" + fechaSalida +
+                ", valor=" + valor +
+                ", formaDePago='" + formaDePago + '\'' +
+                '}';
     }
 }
