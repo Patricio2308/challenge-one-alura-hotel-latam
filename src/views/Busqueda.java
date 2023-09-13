@@ -1,5 +1,9 @@
 package views;
 
+import controller.ReservaController;
+import controller.UserController;
+import modelo.User;
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -39,6 +43,11 @@ public class Busqueda extends JFrame {
 	private JLabel labelExit;
 	int xMouse, yMouse;
 
+	//private ReservaController reservaController;
+	//private UserController userController;
+
+	ReservaController reservaController = new ReservaController();
+	UserController userController = new UserController();
 	/**
 	 * Launch the application.
 	 */
@@ -104,6 +113,7 @@ public class Busqueda extends JFrame {
 		JScrollPane scroll_table = new JScrollPane(tbReservas);
 		panel.addTab("Reservas", new ImageIcon(Busqueda.class.getResource("/imagenes/reservado.png")), scroll_table, null);
 		scroll_table.setVisible(true);
+
 		
 		
 		tbHuespedes = new JTable();
@@ -260,7 +270,10 @@ public class Busqueda extends JFrame {
 		lblEliminar.setBounds(0, 0, 122, 35);
 		btnEliminar.add(lblEliminar);
 		setResizable(false);
+		cargarTablaReserva();
+		cargarTablaUsuarios();
 	}
+
 	
 //Código que permite mover la ventana por la pantalla según la posición de "x" y "y"
 	 private void headerMousePressed(java.awt.event.MouseEvent evt) {
@@ -273,4 +286,29 @@ public class Busqueda extends JFrame {
 	        int y = evt.getYOnScreen();
 	        this.setLocation(x - xMouse, y - yMouse);
 }
+	private void cargarTablaReserva() {
+		var reservas = this.reservaController.cargarReservas();
+
+		reservas.forEach(reserva -> modelo.addRow(new Object[] {
+				reserva.getId(),
+				reserva.getFechaEntrada(),
+				reserva.getFechaSalida(),
+				reserva.getValor(),
+				reserva.getFormaDePago()}));
+
+	}
+	private void cargarTablaUsuarios() {
+		var users = this.userController.cargarUsuarios();
+
+		users.forEach(user -> modeloHuesped.addRow(new Object[] {
+				user.getId(),
+				user.getNombre(),
+				user.getApellido(),
+				user.getFechaNacimiento(),
+				user.getNacionalidad(),
+				user.getTelefono(),
+				user.getNumeroReserva()
+				}));
+
+	}
 }

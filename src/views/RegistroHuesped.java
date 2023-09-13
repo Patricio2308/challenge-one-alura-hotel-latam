@@ -58,6 +58,7 @@ public class RegistroHuesped extends JFrame {
 	}
 
 	public RegistroHuesped(){
+
 	}
 
 	/**

@@ -47,7 +47,7 @@ public class ReservaDAO {
                 statement.execute();
                 final ResultSet resultSet = statement.getResultSet();
                 try(resultSet){
-                    System.out.println("cargando reservas");
+
                     while(resultSet.next()){
                         Reserva reserva = new Reserva(
                                 resultSet.getInt("ID"),
@@ -56,7 +56,6 @@ public class ReservaDAO {
                                 resultSet.getBigDecimal("valor"),
                                 resultSet.getString("formaDePago")
                                 );
-                        System.out.println("cargando..");
 
                         listaReservas.add(reserva);
                     }
