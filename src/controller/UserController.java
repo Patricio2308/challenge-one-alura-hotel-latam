@@ -19,4 +19,12 @@ public class UserController {
     public void guardarUsuario(User user){
         userDAO.guardarUsuario(user);
     }
+
+    public void modificarUsuario(User user){
+        userDAO.modificar(user);
+    }
+
+    public void eliminarUsuario(Integer id) {
+        userDAO.eliminarUsuario(id);
+    }
 }

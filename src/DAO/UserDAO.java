@@ -1,5 +1,7 @@
 package DAO;
 
+import controller.ReservaController;
+import modelo.Reserva;
 import modelo.User;
 
 import java.sql.*;
@@ -74,6 +76,43 @@ public class UserDAO {
                     return lista;
         } catch (SQLException e){
             System.out.println("no se pudo cargar la lista de usuarios");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void modificar(User user){
+        try{
+            String sql = "UPDATE HUESPEDES SET NOMBRE=?, APELLIDO=?, NACIMIENTO=?, NACIONALIDAD=?," +
+                    "TELEFONO=?, IdReserva=? WHERE ID=?";
+            final PreparedStatement statement = con.prepareStatement(sql);
+            try(statement) {
+                statement.setString(1, user.getNombre());
+                statement.setString(2, user.getApellido());
+                statement.setDate(3, user.getFechaNacimiento());
+                statement.setString(4, user.getNacionalidad());
+                statement.setString(5, user.getTelefono());
+                statement.setInt(6,user.getNumeroReserva());
+                statement.setInt(7,user.getId());
+
+                statement.execute();
+            }
+
+        } catch (SQLException e){
+            System.out.println("No se pudo modificar el registro");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void eliminarUsuario(Integer id) {
+        String sql = "DELETE FROM HUESPEDES WHERE ID=?";
+        try{
+            PreparedStatement statement = con.prepareStatement(sql);
+            try(statement){
+                statement.setInt(1, id);
+                statement.execute();
+            }
+        } catch (SQLException e){
+            System.out.println("No se pudo modificar el registro");
             throw new RuntimeException(e);
         }
     }

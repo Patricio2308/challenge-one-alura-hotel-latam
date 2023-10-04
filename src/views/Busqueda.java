@@ -5,30 +5,22 @@ import controller.UserController;
 import modelo.User;
 
 import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
+import javax.swing.table.TableModel;
 import java.awt.Color;
 import java.awt.SystemColor;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
-import javax.swing.JTabbedPane;
 import java.awt.Toolkit;
-import javax.swing.SwingConstants;
-import javax.swing.JSeparator;
-import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.Optional;
 
 @SuppressWarnings("serial")
 public class Busqueda extends JFrame {
@@ -241,27 +233,45 @@ public class Busqueda extends JFrame {
 		lblBuscar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBuscar.setForeground(Color.WHITE);
 		lblBuscar.setFont(new Font("Roboto", Font.PLAIN, 18));
-		
+
+		/*Boton editar campo*/
 		JPanel btnEditar = new JPanel();
 		btnEditar.setLayout(null);
 		btnEditar.setBackground(new Color(12, 138, 199));
 		btnEditar.setBounds(635, 508, 122, 35);
 		btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		contentPane.add(btnEditar);
-		
+
+		btnEditar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				modificarHuesped();
+			}
+		});
+
 		JLabel lblEditar = new JLabel("EDITAR");
 		lblEditar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEditar.setForeground(Color.WHITE);
 		lblEditar.setFont(new Font("Roboto", Font.PLAIN, 18));
 		lblEditar.setBounds(0, 0, 122, 35);
 		btnEditar.add(lblEditar);
-		
+
+		/*Eliminar registro*/
 		JPanel btnEliminar = new JPanel();
 		btnEliminar.setLayout(null);
 		btnEliminar.setBackground(new Color(12, 138, 199));
 		btnEliminar.setBounds(767, 508, 122, 35);
 		btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		contentPane.add(btnEliminar);
+
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//envia a eliminar el elemento de la tabla seleccionada
+				JTable tablaSeleccionada = (tbReservas.isFocusOwner()) ? tbReservas : tbHuespedes;
+				eliminar(tablaSeleccionada);
+			}
+		});
 		
 		JLabel lblEliminar = new JLabel("ELIMINAR");
 		lblEliminar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -273,9 +283,68 @@ public class Busqueda extends JFrame {
 		cargarTablaReserva();
 		cargarTablaUsuarios();
 	}
+	private boolean tieneFilaElegida(JTable tabla) {
+		return tabla.getSelectedRowCount() == 0 || tabla.getSelectedColumnCount() == 0;
+	}
 
-	
-//Código que permite mover la ventana por la pantalla según la posición de "x" y "y"
+	private void eliminar(JTable table) {
+		if (tieneFilaElegida(table)) {
+			JOptionPane.showMessageDialog(this, "Por favor, elije un item");
+			return;
+		}
+
+		if(table.getSelectedRow() != -1){
+			TableModel model = table.getModel();
+			Integer id = (Integer) model.getValueAt(table.getSelectedRow(), 0);
+			System.out.println("Eliminando el id "+ id);
+			modelo.removeRow(table.getSelectedRow());
+			if(table.equals(tbReservas)){
+				reservaController.eliminarReserva(id);
+			} else if(table.equals(tbHuespedes)){
+				userController.eliminarUsuario(id);
+			}
+		}
+
+	}
+
+
+	private void modificarHuesped() {
+		JTable tabla;
+		if(tbReservas.getSelectedRow() != -1){
+			tabla = tbReservas;
+			System.out.println("Reserva seleccionada");
+		} else {
+			tabla = tbHuespedes;
+			System.out.println("Persona seleccionada");
+		}
+		if (tieneFilaElegida(tabla)) {
+			JOptionPane.showMessageDialog(this, "Por favor, elije un item");
+			return;
+		}
+
+		Optional.ofNullable(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
+				.ifPresentOrElse(fila -> {
+
+					var huesped = new User(
+							(Integer) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0),
+							(String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 1),
+							(String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 2),
+							(Date) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 3),
+							(String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 4),
+							(String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 5),
+							(Integer) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 6)
+					);
+
+					this.userController.modificarUsuario(huesped);
+					System.out.println("modificado");
+
+				}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+
+
+	}
+
+
+	//Código que permite mover la ventana por la pantalla según la posición de "x" y "y"
 	 private void headerMousePressed(java.awt.event.MouseEvent evt) {
 	        xMouse = evt.getX();
 	        yMouse = evt.getY();

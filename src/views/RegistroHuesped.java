@@ -272,12 +272,12 @@ public class RegistroHuesped extends JFrame {
 								txtTelefono.getText(),
 								reserva.getId()
 						);
-		//				ReservaController reservaController = new ReservaController();
-		//				reservaController.guardarReserva(reserva);
+//						ReservaController reservaController = new ReservaController();
+//						reservaController.guardarReserva(reserva);
 						UserController userController = new UserController();
 						userController.guardarUsuario(huesped);
-						Exito exito = new Exito();
-						exito.setVisible(true);
+						MenuUsuario menu = new MenuUsuario();
+						menu.setVisible(true);
 						dispose();
 					} else {
 						JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
