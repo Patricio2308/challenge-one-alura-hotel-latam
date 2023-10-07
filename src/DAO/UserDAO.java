@@ -80,10 +80,59 @@ public class UserDAO {
         }
     }
 
-    public void modificar(User user){
+    public List<User> buscarUsuario(String valorBusqueda){
+        List<User> lista = new ArrayList<>();
+        String sql;
+        boolean esNumero = false;
+
+        try {
+            //intenta ver si es numero o string
+            int idReserva = Integer.parseInt(valorBusqueda);
+            esNumero = true;
+            sql = "SELECT ID, NOMBRE, APELLIDO, NACIMIENTO, NACIONALIDAD, TELEFONO, IdReserva FROM HUESPEDES WHERE IdReserva=?";
+        } catch (NumberFormatException e) {
+            sql = "SELECT ID, NOMBRE, APELLIDO, NACIMIENTO, NACIONALIDAD, TELEFONO, IdReserva FROM HUESPEDES WHERE APELLIDO=?";
+        }
         try{
-            String sql = "UPDATE HUESPEDES SET NOMBRE=?, APELLIDO=?, NACIMIENTO=?, NACIONALIDAD=?," +
+            PreparedStatement statement = con.prepareStatement(sql);
+
+            try(statement) {
+
+                if (esNumero) {
+                    statement.setInt(1, Integer.parseInt(valorBusqueda));
+                } else {
+                    statement.setString(1, valorBusqueda);
+                }
+
+                statement.execute();
+                ResultSet resultSet = statement.getResultSet();
+                try(resultSet){
+                    while(resultSet.next()){
+                        User user = new User(
+                                resultSet.getInt("ID"),
+                                resultSet.getString("NOMBRE"),
+                                resultSet.getString("APELLIDO"),
+                                resultSet.getDate("NACIMIENTO"),
+                                resultSet.getString("NACIONALIDAD"),
+                                resultSet.getString("TELEFONO"),
+                                resultSet.getInt("IdReserva")
+                        );
+                        lista.add(user);
+                    }
+                }
+            }
+            return lista;
+        } catch (SQLException e){
+            System.out.println("no se pudo cargar la lista de usuarios");
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public void modificar(User user){
+            String sql = "UPDATE HUESPEDES SET NOMBRE=?, APELLIDO=?, NACIMIENTO=?, NACIONALIDAD=?, " +
                     "TELEFONO=?, IdReserva=? WHERE ID=?";
+        try{
             final PreparedStatement statement = con.prepareStatement(sql);
             try(statement) {
                 statement.setString(1, user.getNombre());
@@ -94,7 +143,8 @@ public class UserDAO {
                 statement.setInt(6,user.getNumeroReserva());
                 statement.setInt(7,user.getId());
 
-                statement.execute();
+                statement.executeUpdate();
+                System.out.println("modificado con exito");
             }
 
         } catch (SQLException e){

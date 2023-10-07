@@ -1,8 +1,8 @@
 package DAO;
 
 import modelo.Reserva;
-import modelo.User;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +67,34 @@ public class ReservaDAO {
         }
     }
 
+    public Reserva buscarReserva(Integer id) {
+        Reserva resultado = null;
+        String sql ="SELECT ID, fechaEntrada, fechaSalida, valor, formaDePago  FROM RESERVAS WHERE ID=?";
+        try{
+            PreparedStatement statement = con.prepareStatement(sql);
+            try(statement) {
+                statement.setInt(1,id);
+                statement.execute();
+                ResultSet resultSet = statement.getResultSet();
+                try(resultSet){
+                    while(resultSet.next()) {
+                        resultado = new Reserva(
+                                resultSet.getInt("ID"),
+                                resultSet.getDate("fechaEntrada"),
+                                resultSet.getDate("fechaSalida"),
+                                resultSet.getBigDecimal("valor"),
+                                resultSet.getString("formaDePago")
+                        );
+                    }
+                }
+            }
+        return resultado;
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public void eliminarReserva(Integer id){
         String sql ="DELETE FROM RESERVAS WHERE ID= ?";
         try {
@@ -79,5 +107,6 @@ public class ReservaDAO {
             throw new RuntimeException(e);
         }
     }
+
 
 }

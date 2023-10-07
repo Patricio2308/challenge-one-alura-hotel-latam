@@ -28,4 +28,7 @@ public class ReservaController {
         reservaDAO.eliminarReserva(id);
     }
 
+    public Reserva buscarReserva(Integer id) {
+        return reservaDAO.buscarReserva(id);
+    }
 }

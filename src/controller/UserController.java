@@ -16,6 +16,10 @@ public class UserController {
     public List<User> cargarUsuarios() {
         return userDAO.cargarUsuarios();
     }
+    public List<User> buscarUsuario(String valor) {
+        return userDAO.buscarUsuario(valor);
+    }
+
     public void guardarUsuario(User user){
         userDAO.guardarUsuario(user);
     }

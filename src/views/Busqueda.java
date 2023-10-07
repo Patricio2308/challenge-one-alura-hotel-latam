@@ -2,6 +2,7 @@ package views;
 
 import controller.ReservaController;
 import controller.UserController;
+import modelo.Reserva;
 import modelo.User;
 
 import java.awt.EventQueue;
@@ -72,7 +73,8 @@ public class Busqueda extends JFrame {
 		setUndecorated(true);
 		
 		txtBuscar = new JTextField();
-		txtBuscar.setBounds(536, 127, 193, 31);
+		txtBuscar.setBounds(545, 128, 193, 31);
+		txtBuscar.setFont(new Font("Roboto Black", Font.PLAIN,16));
 		txtBuscar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		contentPane.add(txtBuscar);
 		txtBuscar.setColumns(10);
@@ -122,6 +124,7 @@ public class Busqueda extends JFrame {
 		JScrollPane scroll_tableHuespedes = new JScrollPane(tbHuespedes);
 		panel.addTab("Huéspedes", new ImageIcon(Busqueda.class.getResource("/imagenes/pessoas.png")), scroll_tableHuespedes, null);
 		scroll_tableHuespedes.setVisible(true);
+
 		
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/Ha-100px.png")));
@@ -213,14 +216,37 @@ public class Busqueda extends JFrame {
 		separator_1_2.setBackground(new Color(12, 138, 199));
 		separator_1_2.setBounds(539, 159, 193, 2);
 		contentPane.add(separator_1_2);
-		
+
+		/*Busqueda de Apellido o reserva*/
 		JPanel btnbuscar = new JPanel();
 		btnbuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
+				try {
+
+				if(txtBuscar.getText().equals("")){
+						modelo.setRowCount(0);
+						modeloHuesped.setRowCount(0);
+						cargarTablaUsuarios();
+						cargarTablaReserva();
+				}
+				else {
+
+					var resUsuario = userController.buscarUsuario(txtBuscar.getText());
+					cargarUsuariosBusqueda(resUsuario);
+					var resReservas = reservaController.buscarReserva(Integer.parseInt(txtBuscar.getText()));
+					cargarReservaBusqueda(resReservas);
+					System.out.println(resReservas);
+				}
+				} catch (RuntimeException exception) {
+
+				}
+
 			}
 		});
+
+
 		btnbuscar.setLayout(null);
 		btnbuscar.setBackground(new Color(12, 138, 199));
 		btnbuscar.setBounds(748, 125, 122, 35);
@@ -283,6 +309,8 @@ public class Busqueda extends JFrame {
 		cargarTablaReserva();
 		cargarTablaUsuarios();
 	}
+
+
 	private boolean tieneFilaElegida(JTable tabla) {
 		return tabla.getSelectedRowCount() == 0 || tabla.getSelectedColumnCount() == 0;
 	}
@@ -309,11 +337,11 @@ public class Busqueda extends JFrame {
 
 
 	private void modificarHuesped() {
-		JTable tabla;
+		JTable tabla = null;
 		if(tbReservas.getSelectedRow() != -1){
 			tabla = tbReservas;
 			System.out.println("Reserva seleccionada");
-		} else {
+		} else if(tbHuespedes.getSelectedRow() != -1){
 			tabla = tbHuespedes;
 			System.out.println("Persona seleccionada");
 		}
@@ -335,7 +363,7 @@ public class Busqueda extends JFrame {
 							(Integer) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 6)
 					);
 
-					this.userController.modificarUsuario(huesped);
+					userController.modificarUsuario(huesped);
 					System.out.println("modificado");
 
 				}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
@@ -380,4 +408,31 @@ public class Busqueda extends JFrame {
 				}));
 
 	}
+
+	private void cargarUsuariosBusqueda(List<User> users) {
+		//var users = this.userController.cargarUsuarios();
+		modeloHuesped.setRowCount(0);
+
+		users.forEach(user -> modeloHuesped.addRow(new Object[] {
+				user.getId(),
+				user.getNombre(),
+				user.getApellido(),
+				user.getFechaNacimiento(),
+				user.getNacionalidad(),
+				user.getTelefono(),
+				user.getNumeroReserva()
+		}));
+
+	}
+	private void cargarReservaBusqueda(Reserva reserva){
+		modelo.setRowCount(0);
+
+		modelo.addRow(new Object[] {
+				reserva.getId(),
+				reserva.getFechaEntrada(),
+				reserva.getFechaSalida(),
+				reserva.getValor(),
+				reserva.getFormaDePago()});
+	}
+
 }
