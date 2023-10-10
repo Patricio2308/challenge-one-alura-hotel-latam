@@ -272,10 +272,12 @@ public class RegistroHuesped extends JFrame {
 								txtTelefono.getText(),
 								reserva.getId()
 						);
-//						ReservaController reservaController = new ReservaController();
-//						reservaController.guardarReserva(reserva);
+
 						UserController userController = new UserController();
 						userController.guardarUsuario(huesped);
+
+						JOptionPane.showMessageDialog(null, "La reserva para el usuario " + huesped.getNombre() + " " + huesped.getApellido() +" se realizó satisfactoriamente.", "Huesped creado",JOptionPane.INFORMATION_MESSAGE);
+
 						MenuUsuario menu = new MenuUsuario();
 						menu.setVisible(true);
 						dispose();

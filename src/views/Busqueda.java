@@ -11,12 +11,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.Color;
-import java.awt.SystemColor;
 import java.awt.Font;
-import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.util.List;
-import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -224,25 +221,20 @@ public class Busqueda extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 
 				try {
-
-				if(txtBuscar.getText().equals("")){
-						modelo.setRowCount(0);
-						modeloHuesped.setRowCount(0);
-						cargarTablaUsuarios();
-						cargarTablaReserva();
-				}
+					if(txtBuscar.getText().equals("")){
+							modelo.setRowCount(0);
+							modeloHuesped.setRowCount(0);
+							cargarTablaUsuarios();
+							cargarTablaReserva();
+					}
 				else {
-
 					var resUsuario = userController.buscarUsuario(txtBuscar.getText());
 					cargarUsuariosBusqueda(resUsuario);
 					var resReservas = reservaController.buscarReserva(Integer.parseInt(txtBuscar.getText()));
 					cargarReservaBusqueda(resReservas);
-					System.out.println(resReservas);
+					}
+				} catch(RuntimeException err){
 				}
-				} catch (RuntimeException exception) {
-
-				}
-
 			}
 		});
 
@@ -293,9 +285,17 @@ public class Busqueda extends JFrame {
 		btnEliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//envia a eliminar el elemento de la tabla seleccionada
 				JTable tablaSeleccionada = (tbReservas.isFocusOwner()) ? tbReservas : tbHuespedes;
-				eliminar(tablaSeleccionada);
+				int opcion = JOptionPane.showConfirmDialog(
+						null,
+						"¿Está seguro que quiere eliminar el registro?",
+						"Confirmación de Eliminación",
+						JOptionPane.YES_NO_OPTION
+				);
+				if(opcion == JOptionPane.YES_OPTION){
+					//envia a eliminar el elemento de la tabla seleccionada
+					eliminar(tablaSeleccionada);
+				}
 			}
 		});
 		
@@ -327,9 +327,21 @@ public class Busqueda extends JFrame {
 			System.out.println("Eliminando el id "+ id);
 			modelo.removeRow(table.getSelectedRow());
 			if(table.equals(tbReservas)){
-				reservaController.eliminarReserva(id);
+				try{
+					reservaController.eliminarReserva(id);
+					reservaController.cargarReservas();
+					JOptionPane.showMessageDialog(this, "Reserva exitosamente eliminada","Eliminación de registro", JOptionPane.INFORMATION_MESSAGE);
+				} catch(RuntimeException e){
+					JOptionPane.showMessageDialog(this, "Error al intentar eliminar la reserva");
+				}
 			} else if(table.equals(tbHuespedes)){
-				userController.eliminarUsuario(id);
+				try {
+					userController.eliminarUsuario(id);
+					userController.cargarUsuarios();
+					JOptionPane.showMessageDialog(this, "Huesped exitosamente eliminado","Eliminación de registro", JOptionPane.INFORMATION_MESSAGE);
+				} catch(RuntimeException e){
+					JOptionPane.showMessageDialog(this, "Error al intentar eliminar el huesped");
+				}
 			}
 		}
 
@@ -340,10 +352,8 @@ public class Busqueda extends JFrame {
 		JTable tabla = null;
 		if(tbReservas.getSelectedRow() != -1){
 			tabla = tbReservas;
-			System.out.println("Reserva seleccionada");
 		} else if(tbHuespedes.getSelectedRow() != -1){
 			tabla = tbHuespedes;
-			System.out.println("Persona seleccionada");
 		}
 		if (tieneFilaElegida(tabla)) {
 			JOptionPane.showMessageDialog(this, "Por favor, elije un item");

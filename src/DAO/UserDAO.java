@@ -57,7 +57,6 @@ public class UserDAO {
                 statement.execute();
                 final ResultSet resultSet = statement.getResultSet();
                 try(resultSet){
-                    System.out.println("resultado "+ statement);
 
                     while (resultSet.next()){
                         User user = new User(
