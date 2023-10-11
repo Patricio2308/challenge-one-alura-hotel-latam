@@ -355,7 +355,6 @@ public class Busqueda extends JFrame {
 			JOptionPane.showMessageDialog(this, "Por favor, elije un item");
 			return;
 		}
-		JTable tablaSeleccionada = (tbReservas.isFocusOwner()) ? tbReservas : tbHuespedes;
 
 		if(tabla == tbHuespedes){
 			Optional.ofNullable(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
@@ -380,21 +379,22 @@ public class Busqueda extends JFrame {
 			Optional.ofNullable(modelo.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
 					.ifPresentOrElse(fila -> {
 
+						BigDecimal valor = new BigDecimal((String) modelo.getValueAt(tbReservas.getSelectedRow(), 3));
 
 						var reserva = new Reserva(
 								(Integer) modelo.getValueAt(tbReservas.getSelectedRow(), 0),
 								Date.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 1).toString()),
 								Date.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 2).toString()),
-								(BigDecimal) modelo.getValueAt(tbReservas.getSelectedRow(), 3),
+								valor,
 								(String) modelo.getValueAt(tbReservas.getSelectedRow(), 4)
 						);
 
 						reservaController.modificarReserva(reserva);
-						JOptionPane.showMessageDialog(this, "Cambios de huesped realizados");
-						System.out.println("modificado");
+						JOptionPane.showMessageDialog(this, "Cambios de reserva realizados");
 
 					}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
 		}
+		tabla.clearSelection();
 
 
 	}
@@ -412,6 +412,7 @@ public class Busqueda extends JFrame {
 	        this.setLocation(x - xMouse, y - yMouse);
 }
 	private void cargarTablaReserva() {
+		modelo.setRowCount(0);
 		var reservas = this.reservaController.cargarReservas();
 
 		reservas.forEach(reserva -> modelo.addRow(new Object[] {
@@ -423,6 +424,7 @@ public class Busqueda extends JFrame {
 
 	}
 	private void cargarTablaUsuarios() {
+		modeloHuesped.setRowCount(0);
 		var users = this.userController.cargarUsuarios();
 
 		users.forEach(user -> modeloHuesped.addRow(new Object[] {

@@ -95,6 +95,26 @@ public class ReservaDAO {
 
     }
 
+    public void  modificar(Reserva reserva){
+        String sql = "UPDATE RESERVAS SET fechaEntrada=?, fechaSalida=?, valor=?, formaDePago=? WHERE ID=?";
+        try {
+            PreparedStatement statement = con.prepareStatement(sql);
+            try(statement){
+                statement.setDate(1, reserva.getFechaEntrada());
+                statement.setDate(2, reserva.getFechaEntrada());
+                statement.setBigDecimal(3,reserva.getValor());
+                statement.setString(4,reserva.getFormaDePago());
+                statement.setInt(5,reserva.getId());
+
+                statement.execute();
+                System.out.println("modificado");
+            }
+
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public void eliminarReserva(Integer id){
         String sql ="DELETE FROM RESERVAS WHERE ID= ?";
         try {

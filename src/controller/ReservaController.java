@@ -25,7 +25,7 @@ public class ReservaController {
         reservaDAO.eliminarReserva(id);
     }
     public void modificarReserva(Reserva reserva){
-        //reservaDAO.modificar(reserva);
+        reservaDAO.modificar(reserva);
         System.out.println("modificacion de reserva");
     }
 
