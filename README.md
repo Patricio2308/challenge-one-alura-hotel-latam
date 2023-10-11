@@ -39,6 +39,10 @@
 
 Proyecto challenge del programa Oracle ONE y Alura Latam, que abarca la tecnología JDBC para el acceso a base de datos a registros en JAVA, donde partiendo de una base en Swing se tiene que poder realizar reservas hoteleras, registrando la reserva y huesped para guardarlas y poder acceder a ellas por buscador.
 
+<p align="center" >
+     <img width="200" heigth="200" src="https://user-images.githubusercontent.com/91544872/189419040-c093db78-c970-4960-8aca-ffcc11f7ffaf.png">
+</p>
+
 ## Características de la aplicación y demostración
 
 
@@ -58,12 +62,12 @@ Proyecto challenge del programa Oracle ONE y Alura Latam, que abarca la tecnolog
 
 
 
-## Demostración de funciones y aplicaciones (🚧 En construcción 🚧)
+## Demostración de funciones y aplicaciones
 
-- `Registro de reserva`:
+- `Registro de reserva y huesped`:
 
-  
-- `Registro de huesped`: 
+
+  <img width="600" heigth="600" src="https://github.com/Patricio2308/challenge-one-alura-hotel-latam/assets/53927071/2da908dd-250b-4257-ae98-7ae6a13183a1">
 
 
 - `Busqueda de registros`:
@@ -95,15 +99,9 @@ Proyecto challenge del programa Oracle ONE y Alura Latam, que abarca la tecnolog
   
 - MySql
 
-- LeonardoAI
-
-<p align="center" >
-     <img width="200" heigth="200" src="https://user-images.githubusercontent.com/91544872/189419040-c093db78-c970-4960-8aca-ffcc11f7ffaf.png">
-</p>
-
 ## Personas-Desarrolladores del Proyecto
 
-<a href="https://github.com/Patricio2308" target="_blank"> Patricio Giménez </a>
+<a href="https://github.com/Patricio2308" target="_blank"> <strong>Patricio Giménez</strong> </a>
 
 <a href="https://www.linkedin.com/company/alura-latam/mycompany/" target="_blank">
 <strong>Alura Latam</strong></br></a>
