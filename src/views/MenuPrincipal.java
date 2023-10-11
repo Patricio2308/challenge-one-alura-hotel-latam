@@ -63,10 +63,11 @@ public class MenuPrincipal extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel imagenFondo = new JLabel("");
-		imagenFondo.setBounds(-50, 0, 732, 501);
-		imagenFondo.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagenes/menu-img.png")));
+		imagenFondo.setBounds(-50, 0, 730, 501);
+//		imagenFondo.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagenes/menu-img.png")));
+		imagenFondo.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagenes/Hotel-principal.jpg")));
 		panel.add(imagenFondo);
-		
+
 		JLabel logo = new JLabel("");
 		logo.setBounds(722, 80, 150, 156);
 		logo.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagenes/aH-150px.png")));
@@ -78,10 +79,10 @@ public class MenuPrincipal extends JFrame {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblCopyR = new JLabel("Desarrollado por Fulanita de Tal © 2023");
-		lblCopyR.setBounds(315, 11, 284, 19);
+		JLabel lblCopyR = new JLabel("Desarrollado por Patricio Giménez © 2023");
+		lblCopyR.setBounds(300, 11, 300, 19);
 		lblCopyR.setForeground(new Color(240, 248, 255));
-		lblCopyR.setFont(new Font("Roboto", Font.PLAIN, 16));
+		lblCopyR.setFont(new Font("Roboto", Font.PLAIN, 14));
 		panel_1.add(lblCopyR);
 		
 		//Barra para controlar la ventana 

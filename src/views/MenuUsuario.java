@@ -162,7 +162,9 @@ public class MenuUsuario extends JFrame {
 		btnexit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.exit(0);
+				MenuPrincipal principal = new MenuPrincipal();
+				principal.setVisible(true);
+				dispose();
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -200,16 +202,16 @@ public class MenuUsuario extends JFrame {
 	    lblNewLabel_1.setFont(new Font("Roboto", Font.PLAIN, 24));
 	    
 	    JLabel labelFecha = new JLabel("New label");
-	    labelFecha.setBounds(35, 64, 294, 36);
+	    labelFecha.setBounds(35, 64, 294, 34);
 	    panelFecha.add(labelFecha);
 	    labelFecha.setForeground(Color.WHITE);
-	    labelFecha.setFont(new Font("Roboto", Font.PLAIN, 33));
+	    labelFecha.setFont(new Font("Roboto", Font.PLAIN, 32));
 	    Date fechaActual = new Date(); //fecha y hora actual
 	    String fecha = new SimpleDateFormat("dd/MM/yyyy").format(fechaActual); //formatear la fecha en una cadena
 	    labelFecha.setText("Hoy es " + fecha); //setear la representacion en cadena de la fecha
 	    
 	    JLabel lblNewLabel = new JLabel("Bienvenido");
-	    lblNewLabel.setFont(new Font("Roboto", Font.BOLD, 24));
+	    lblNewLabel.setFont(new Font("Roboto", Font.BOLD, 23));
 	    lblNewLabel.setBounds(302, 234, 147, 46);
 	    contentPane.add(lblNewLabel);
 	    
@@ -227,17 +229,17 @@ public class MenuUsuario extends JFrame {
 	    contentPane.add(labelDescripcion_1);
 	    
 	    JLabel lblNewLabel_3 = new JLabel("- Registro de Reservas y Huéspedes");
-	    lblNewLabel_3.setFont(new Font("Roboto", Font.PLAIN, 17));
+	    lblNewLabel_3.setFont(new Font("Roboto", Font.PLAIN, 16));
 	    lblNewLabel_3.setBounds(312, 444, 295, 27);
 	    contentPane.add(lblNewLabel_3);
 	    
 	    JLabel lblNewLabel_3_1 = new JLabel("- Edición de Reservas y Huéspedes existentes");
-	    lblNewLabel_3_1.setFont(new Font("Roboto", Font.PLAIN, 17));
+	    lblNewLabel_3_1.setFont(new Font("Roboto", Font.PLAIN, 16));
 	    lblNewLabel_3_1.setBounds(312, 482, 355, 27);
 	    contentPane.add(lblNewLabel_3_1);
 	    
 	    JLabel lblNewLabel_3_2 = new JLabel("- Eliminar todo tipo de registros");
-	    lblNewLabel_3_2.setFont(new Font("Roboto", Font.PLAIN, 17));
+	    lblNewLabel_3_2.setFont(new Font("Roboto", Font.PLAIN, 16));
 	    lblNewLabel_3_2.setBounds(312, 520, 295, 27);
 	    contentPane.add(lblNewLabel_3_2);
 	}

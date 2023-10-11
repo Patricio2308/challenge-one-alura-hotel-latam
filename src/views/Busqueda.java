@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.Color;
 import java.awt.Font;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 import java.awt.Toolkit;
@@ -32,9 +33,6 @@ public class Busqueda extends JFrame {
 	private JLabel labelAtras;
 	private JLabel labelExit;
 	int xMouse, yMouse;
-
-	//private ReservaController reservaController;
-	//private UserController userController;
 
 	ReservaController reservaController = new ReservaController();
 	UserController userController = new UserController();
@@ -79,7 +77,7 @@ public class Busqueda extends JFrame {
 		
 		JLabel lblNewLabel_4 = new JLabel("SISTEMA DE BÚSQUEDA");
 		lblNewLabel_4.setForeground(new Color(12, 138, 199));
-		lblNewLabel_4.setFont(new Font("Roboto Black", Font.BOLD, 24));
+		lblNewLabel_4.setFont(new Font("Roboto Black", Font.BOLD, 22));
 		lblNewLabel_4.setBounds(331, 62, 280, 42);
 		contentPane.add(lblNewLabel_4);
 		
@@ -89,9 +87,7 @@ public class Busqueda extends JFrame {
 		panel.setBounds(20, 169, 865, 328);
 		contentPane.add(panel);
 
-		
-		
-		
+
 		tbReservas = new JTable();
 		tbReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbReservas.setFont(new Font("Roboto", Font.PLAIN, 16));
@@ -263,7 +259,7 @@ public class Busqueda extends JFrame {
 		btnEditar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				modificarHuesped();
+				modificarRegistro();
 			}
 		});
 
@@ -329,7 +325,7 @@ public class Busqueda extends JFrame {
 			if(table.equals(tbReservas)){
 				try{
 					reservaController.eliminarReserva(id);
-					reservaController.cargarReservas();
+					cargarTablaReserva();
 					JOptionPane.showMessageDialog(this, "Reserva exitosamente eliminada","Eliminación de registro", JOptionPane.INFORMATION_MESSAGE);
 				} catch(RuntimeException e){
 					JOptionPane.showMessageDialog(this, "Error al intentar eliminar la reserva");
@@ -337,7 +333,7 @@ public class Busqueda extends JFrame {
 			} else if(table.equals(tbHuespedes)){
 				try {
 					userController.eliminarUsuario(id);
-					userController.cargarUsuarios();
+					cargarTablaUsuarios();
 					JOptionPane.showMessageDialog(this, "Huesped exitosamente eliminado","Eliminación de registro", JOptionPane.INFORMATION_MESSAGE);
 				} catch(RuntimeException e){
 					JOptionPane.showMessageDialog(this, "Error al intentar eliminar el huesped");
@@ -348,7 +344,7 @@ public class Busqueda extends JFrame {
 	}
 
 
-	private void modificarHuesped() {
+	private void modificarRegistro() {
 		JTable tabla = null;
 		if(tbReservas.getSelectedRow() != -1){
 			tabla = tbReservas;
@@ -359,24 +355,46 @@ public class Busqueda extends JFrame {
 			JOptionPane.showMessageDialog(this, "Por favor, elije un item");
 			return;
 		}
+		JTable tablaSeleccionada = (tbReservas.isFocusOwner()) ? tbReservas : tbHuespedes;
 
-		Optional.ofNullable(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
-				.ifPresentOrElse(fila -> {
+		if(tabla == tbHuespedes){
+			Optional.ofNullable(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
+					.ifPresentOrElse(fila -> {
 
-					var huesped = new User(
-							(Integer) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0),
-							(String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 1),
-							(String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 2),
-							(Date) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 3),
-							(String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 4),
-							(String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 5),
-							(Integer) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 6)
-					);
+						var huesped = new User(
+								(Integer) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0),
+								(String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 1),
+								(String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 2),
+								Date.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 3).toString()),
+								(String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 4),
+								(String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 5),
+								(Integer) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 6)
+						);
 
-					userController.modificarUsuario(huesped);
-					System.out.println("modificado");
+						userController.modificarUsuario(huesped);
+						JOptionPane.showMessageDialog(this, "Cambios de huesped realizados");
+						System.out.println("modificado");
 
-				}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+					}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+		} else {
+			Optional.ofNullable(modelo.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
+					.ifPresentOrElse(fila -> {
+
+
+						var reserva = new Reserva(
+								(Integer) modelo.getValueAt(tbReservas.getSelectedRow(), 0),
+								Date.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 1).toString()),
+								Date.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 2).toString()),
+								(BigDecimal) modelo.getValueAt(tbReservas.getSelectedRow(), 3),
+								(String) modelo.getValueAt(tbReservas.getSelectedRow(), 4)
+						);
+
+						reservaController.modificarReserva(reserva);
+						JOptionPane.showMessageDialog(this, "Cambios de huesped realizados");
+						System.out.println("modificado");
+
+					}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+		}
 
 
 	}
@@ -420,7 +438,6 @@ public class Busqueda extends JFrame {
 	}
 
 	private void cargarUsuariosBusqueda(List<User> users) {
-		//var users = this.userController.cargarUsuarios();
 		modeloHuesped.setRowCount(0);
 
 		users.forEach(user -> modeloHuesped.addRow(new Object[] {

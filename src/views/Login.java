@@ -1,6 +1,5 @@
 package views;
 
-import controller.LoginController;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -34,7 +33,7 @@ public class Login extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	private LoginController loginController;
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -52,7 +51,7 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
-		this.loginController = new LoginController();
+
 		setResizable(false);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,11 +75,8 @@ public class Login extends JFrame {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel imgHotel = new JLabel("");
-		imgHotel.setBounds(0, 0, 304, 538);
-		panel_1.add(imgHotel);
-		imgHotel.setIcon(new ImageIcon(Login.class.getResource("/imagenes/img-hotel-login-.png")));
-		
+
+
 		JPanel btnexit = new JPanel();
 		btnexit.setBounds(251, 0, 53, 36);
 		panel_1.add(btnexit);
@@ -100,7 +96,7 @@ public class Login extends JFrame {
 			     labelExit.setForeground(Color.white);
 			}
 		});
-		btnexit.setBackground(new Color(12, 138, 199));
+		btnexit.setBackground(new Color(12, 138, 199,100));
 		btnexit.setLayout(null);
 		btnexit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		
@@ -109,7 +105,13 @@ public class Login extends JFrame {
 		btnexit.add(labelExit);
 		labelExit.setForeground(SystemColor.text);
 		labelExit.setFont(new Font("Roboto", Font.PLAIN, 18));
-		labelExit.setHorizontalAlignment(SwingConstants.CENTER);		
+		labelExit.setHorizontalAlignment(SwingConstants.CENTER);
+
+		JLabel imgHotel = new JLabel("");
+		imgHotel.setBounds(0, 0, 304, 538);
+		//imgHotel.setIcon(new ImageIcon(Login.class.getResource("/imagenes/img-hotel-login-.png")));
+		imgHotel.setIcon(new ImageIcon(Login.class.getResource("/imagenes/Hotel-login.jpg")));
+		panel_1.add(imgHotel);
 		
 		txtUsuario = new JTextField();
 		txtUsuario.addMouseListener(new MouseAdapter() {
@@ -125,7 +127,7 @@ public class Login extends JFrame {
 			        }
 			}
 		});
-		txtUsuario.setFont(new Font("Roboto", Font.PLAIN, 16));
+		txtUsuario.setFont(new Font("Roboto", Font.PLAIN, 17));
 		txtUsuario.setText("Ingrese su nombre de usuario");
 		txtUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtUsuario.setForeground(SystemColor.activeCaptionBorder);
@@ -245,7 +247,6 @@ public class Login extends JFrame {
 	        String contrase=new String (txtContrasena.getPassword());
 
 	        if(txtUsuario.getText().equals(Usuario) && contrase.equals(Contraseña)){
-				loginController.login();
 				MenuUsuario menu = new MenuUsuario();
 	            menu.setVisible(true);
 	            dispose();	 

@@ -3,6 +3,7 @@ package controller;
 import DAO.ReservaDAO;
 import factory.ConnectionFactory;
 import modelo.Reserva;
+import modelo.User;
 
 import java.util.List;
 
@@ -22,6 +23,10 @@ public class ReservaController {
     }
     public void eliminarReserva(Integer id){
         reservaDAO.eliminarReserva(id);
+    }
+    public void modificarReserva(Reserva reserva){
+        //reservaDAO.modificar(reserva);
+        System.out.println("modificacion de reserva");
     }
 
     public Reserva buscarReserva(Integer id) {
